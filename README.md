@@ -1,6 +1,8 @@
-# ZOO-Project WPS with the SAGA GIS
+# ZOO-Project WPS with the SAGA GIS [![Travis Build Status](https://travis-ci.org/allixender/zoo-sagagis-docker.svg)](https://travis-ci.org/allixender/zoo-sagagis-docker)
 
-info: http://zoo-project.org/docs/kernel/sagagis.html#kernel-sagagis
+Docker Hub: https://hub.docker.com/r/allixender/zoo-sagagis-docker/builds/
+
+zoo-project info: http://zoo-project.org/docs/kernel/sagagis.html#kernel-sagagis
 
 ## side notes
 
