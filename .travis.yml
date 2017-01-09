@@ -2,33 +2,37 @@ language: cpp
 sudo: required
 dist: trusty
 services:
-  - docker
+- docker
 python:
-  - "2.7"
+- '2.7'
 compiler:
 - gcc
 os:
 - linux
 env:
   global:
-
+  - COMMIT=${TRAVIS_COMMIT::8}
+  - secure: kdZ6CMGRUh10+EECdtCKoawLGkXzs+5S5xRaGQoveTEJNOBbc2ItZrRFgX0P9LlsbKPKEF1tmvp48chrw6exgflgATNl1pMmLxX+jDSTtBdERl1wK2VzQDWNXaqAILjkh5LD5VvxU8W9lqVRB74czv8nbpJNQDF6ecQDVtK9xOCnm0y2chE18zYUJ5cYnp08iiA+8bGgjoOdW0X/4joD95lpklvBPToRna35Bqa4X2EcDPholj8D5Qq4zjxhovt5NDGGM05GTbzBgl5g/v56b2qqyUcL80FGQgCx667IsdNGMp8CQf79DN6ePB4NLlyODt6x9O8eoLDqP2spnq8gYVojV07oRkgN+JFvk94SgrWzKOy6TVT3n4pvjjACKupxrUwUIY8+aJprIG0ihOHdLSPlCSgRhnV2unq/rl3QKH3RnxbV5iVpK7am/l2UydIpnkUaFGtxpnuP9wDqmit7UZAJaxh/zQS1XR8C3AtFcRBgHaDqcRIuP+PtQx6T4A4KG2HM4W2VKToAWdiNmPuImZkr7saCbiGoRTskXgOZzEArXgMSPN7H9CwR3y1IvVSJa+G8vWScruE3oNtVVbWi0tb5u1+fHq13NlWsLjyVBz1ohY+c/CED6QW8jK/jk0q5pMqy/YieBv7iTFd4vfO0nUfJbm5+FQVDD1eaNgEgtGg=
+  - secure: JDwqaQWlwnl6sOHr5ZOVh5usub/eU3vu2nQ8kUJY7nlnuH+VDmye0VJaR0AHeNMyRJkKK7hyiDyLl2c9RZJiani/OiNHVSF3FStYFRpMJCgckMEVLbcIE0LLfToV8kcLsQ2n6kIwJyr5aWP/KBW2S4jaOmzdljJV4FgbtGAxmaG77RMuSUyYp/Pu/GpyCZXi0aDfpBsN1nKgUa+0FMzuIqcpgIh0EwOn+gLMLfu07p34uHwlynpBC/WA//47jd/ixHHS7liOC+enXz7wGzE9Rfc3iOWw0YFm5B2x9jQczmkwgTbexvZ5ex3HO7VAkx6dwLatX8VOruDOAteU4ABSqWk0zwNnkd6OBYXaCW3NreU1u4UUnT6LOR2dIZOtFzevIfAnpBIF26vGeWezaA6ROcc9UqS4cVilfBkQK/jgg6kLOmq/KldF+wT6v/JAm8y71wp2ENqnEelvRh35jpzUkOnpJfZfKOJts6GKHkmkOCwNHJ43s9RIf5Dxt9QvyGf7Cz6YwS7PBP8dQR9MRVvFnYJ05S+R2a6tSNKVDTxpwTuvVtBhZY2PADdFAOdhk8OQg7QgQ2B/Hci1AUfOG33u8R/TIsIZE3tLIISPZGSOOOivgvEPr+EiKHURGWsIJL8yT5hkumk6kRZVLBokmz5c1pRwxiz7z7f1kmN7TASIgUk=
+  - secure: GQncQSsu8AT4n5ezTuXRSgfbznukFJq0PYGIX589O01l5ItsxkWchFx23fb3KrnzvZBq1pafT/CL7cUyy3SuSFMOT4ljAd6YJ1du0Brqd1pdOP0qPGE7hUbZ5q8ZsTNjg2340Nu2btaX8bIcGs2K2GLqLaNrFQRns92JAr/mI2YSzBGPtdngtgMsdIoSd0eH3yRt68IONlleM/VOL1vAy9h0UpAtNbEiNIdAqXS4HKLYRpNe8X/RSCWEdPKunHuSKG1tu4AK3YZZiPYLJRQbjbSGa1mmRo6MBocWXGLU8u1pzbKZQpUVCRs9BynG1qKhLzFp/UWkMN+Z6ffdZbmt8nzCDoX1GVe4KxyrIgFs8LSw/b5P6aiAaPeL7IND8hq7yV9IhT9gwVaWQ3PhmQck0H78A/K/ERRyq9ypEFFYuIp09sz6iVHG/iVfdULVcxYV3GoM1nHQcxjdO7/PkUhCllCM/ulwheOAH8VXbilERhxTn8Aq0pOt4BPE7QHnLFA3Bc7RoyhRIc40eQIZJovFPYL/3aB76eC5Ql2yJMXNFuZ9HLSgh+RUWT24hoxnqHLVLH7c5mxH0zeH5y1wVS1oIjw3tdE12fI7E/XUUlMJ9FtOGuxY1lC9BaBCqxl0MToxVRNMIK+ytFjEWJTwe9muQJG8TgRyYtRsdvYMWpipoG8=
 before_install:
 - echo $LANG
 - echo $LC_ALL
-# - test -n $CC && unset CC
-
 before_script:
-
 install:
-
 script:
-- docker build -f Dockerfile -t $TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER .
-
+- docker build -f Dockerfile -t $TRAVIS_REPO_SLUG:$COMMIT .
+after_success:
+- docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+- export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH
+  ; fi`
+- docker tag $TRAVIS_REPO_SLUG:$COMMIT $TRAVIS_REPO_SLUG:$TAG
+- docker tag $TRAVIS_REPO_SLUG:$COMMIT $TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER
+- docker push $TRAVIS_REPO_SLUG
 branches:
   only:
   - master
   - "/^v\\d+\\./"
-
 notifications:
   email:
   - allixender@googlemail.com
