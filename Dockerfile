@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM allixender/zoo-sagagis-base:latest
 
 # that's me!
 MAINTAINER Alex K, allixender@googlemail.com
